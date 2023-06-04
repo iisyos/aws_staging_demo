@@ -37,3 +37,8 @@ output "aws_route53_zone_main_zone_id" {
   description = "The Zone ID of the Route53 Zone"
   value       = module.route53.aws_route53_zone_main_zone_id
 }
+
+output "repository_url" {
+  description = "URL of first repository created"
+  value       = module.ecr.repository_url
+}

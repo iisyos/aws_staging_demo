@@ -43,3 +43,8 @@ module "route53" {
   alb_dns_name = module.alb.alb_dns_name
   alb_zone_id = module.alb.alb_zone_id
 }
+
+module "ecr" {
+  source   = "./modules/ecr"
+  app_name = var.app_name
+}
