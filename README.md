@@ -1,4 +1,12 @@
 # aws_staging_demo
+This repository is a demo for AWS *Staging* environment.
+Supposed some situation like
+- Need AWS Fargate *Staging* environment
+- Each developer needs a unique *Staging* environment
+- And each developer can deploy to their own *Staging* environment at their own timing
+
+I solved this problem by using `Terraform` and CI/CD.
+Each *Staging* environment shares some resources.(VPC etc.)
 
 # Usage
 I assume `Terraform` is already installed, and created IAM user for it.
@@ -65,3 +73,26 @@ path/to/aws_staging_demo/terraform/common_resources
 % terraform init
 % terraform apply -var-file=staging.tfvars
 ```
+
+# CI/CD
+GitHub Actions is used for CI/CD.
+The staging deploy workflow triggered by [workflow_dispatch](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow).
+First time, Terraform create below resources.
+- ECS
+  - Cluster
+  - Task Definition
+  - Service
+- ALB
+  - listener
+  - target group
+- Route53
+  - A record
+
+You can access to your staging environment by accessing to `http://<your github username>.<your domain>`.
+After that, Terraform update Task Definition, and restart ECS Service.
+
+# Note
+- This repository is just a demo, so it doesn't have any test.
+- SSL certificate is not included in this repository.
+- This repository doesn't have any resources for like `production` environment. (common_resources has `production` , but it's just a dummy.)
+- I use tricky forcible way to manage user dependent parameters. So in the future, I need to change this way to more robust way. Install [Terragrunt](https://terragrunt.gruntwork.io/) is one possible way.
