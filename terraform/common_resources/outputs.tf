@@ -1,3 +1,11 @@
+output "app_name" {
+  value       = var.app_name
+}
+
+output "domain" {
+  value       = var.domain
+}
+
 output "alb_dns_name" {
   description = "The DNS name of the ALB"
   value       = module.alb.alb_dns_name

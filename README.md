@@ -57,7 +57,7 @@ This section describes how to deploy by human.
 $ pwd
 path/to/aws_staging_demo/terraform/common_resources
 
-% cp common.tfvars ../user_resources/staging.tfvars
+% cp ../user_resources/staging.tfvars.exampe ../user_resources/staging.tfvars
 % terraform output -json | jq -r 'to_entries[] | "\(.key)=\"\(.value.value)\""' >> ../user_resources/staging.tfvars
 ```
 
