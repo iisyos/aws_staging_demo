@@ -10,7 +10,9 @@ Fist of all, create [backend](https://developer.hashicorp.com/terraform/language
 
 Next, copy `main_override.tf.example` to `main_override.tf` and set your bucket name.
 ```zsh
+# for common resources
 % sed "s/bucket = \"mybucket\"/bucket = \"$BUCKET_NAME\"/" terraform/common_resources/main_override.tf.example > terraform/common_resources/main_override.tf
+# for user resources
 % sed "s/bucket = \"mybucket\"/bucket = \"$BUCKET_NAME\"/" terraform/user_resources/main_override.tf.example > terraform/user_resources/main_override.tf
 ```
 
@@ -27,12 +29,12 @@ Common resources mean literally common resources for all users, such as VPC, Sub
 
 2. create environment variable file by copying from example, and edit it
 ```zsh
-% cp staging.tfvars.example staging.tfvars
+% cp common.tfvars.example common.tfvars
 ```
 3. initialize Terraform and apply by using environment variable file
 ```zsh
 % terraform init
-% terraform apply -var-file=staging.tfvars
+% terraform apply -var-file=common.tfvars
 ```
 
 ## User resources
@@ -47,7 +49,7 @@ This section describes how to deploy by human.
 $ pwd
 path/to/aws_staging_demo/terraform/common_resources
 
-% cp staging.tfvars ../user_resources/staging.tfvars
+% cp common.tfvars ../user_resources/staging.tfvars
 % terraform output -json | jq -r 'to_entries[] | "\(.key)=\"\(.value.value)\""' >> ../user_resources/staging.tfvars
 ```
 
