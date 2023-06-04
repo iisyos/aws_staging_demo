@@ -11,20 +11,6 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
-module "network" {
-  source   = "./modules/network"
-  app_name = var.app_name
-}
-
-module "alb" {
-  source   = "./modules/alb"
-  app_name = var.app_name
-  vpc_id   = module.network.vpc_id
-  public_a_id   = module.network.public_a_id
-  public_c_id   = module.network.public_c_id
-  depends_on = [module.network]
-}
-
 module "ecs" {
   source   = "./modules/ecs"
   app_name = var.app_name

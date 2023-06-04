@@ -17,3 +17,8 @@ variable "public_c_id" {
   description = "The ID of the Public Subnet C"
   type        = string
 }
+
+variable "aws_acm_certificate_cert_arn" {
+  description = "The ARN of the Certificate"
+  type        = string
+}
