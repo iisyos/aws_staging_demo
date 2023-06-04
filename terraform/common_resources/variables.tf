@@ -9,3 +9,9 @@ variable "app_name" {
 variable "domain" {
   type = string
 }
+
+variable "image_url" {
+  description = "The URL of the Docker image"
+  type = string
+  default = "nginx"
+}

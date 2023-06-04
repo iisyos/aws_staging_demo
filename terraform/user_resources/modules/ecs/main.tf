@@ -18,7 +18,7 @@ resource "aws_ecs_task_definition" "main" {
 [
   {
     "name": "${var.app_name}-${var.environment}",
-    "image": "nginx",
+    "image": "${var.image_url}",
     "portMappings": [
       {
         "containerPort": 80,

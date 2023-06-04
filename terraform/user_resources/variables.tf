@@ -50,3 +50,9 @@ variable "vpc_id" {
   description = "The ID of the VPC"
   type = string
 }
+
+variable "image_url" {
+  description = "The URL of the Docker image"
+  type = string
+  default = "nginx"
+}

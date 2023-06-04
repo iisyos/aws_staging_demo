@@ -33,6 +33,7 @@ module "ecs" {
   public_c_id   = module.network.public_c_id
   aws_lb_target_group_main_arn = module.alb.aws_lb_target_group_main_arn
   aws_security_group_alb_id = module.alb.aws_security_group_alb_id
+  image_url = var.image_url
   depends_on = [module.alb]
 }
 
