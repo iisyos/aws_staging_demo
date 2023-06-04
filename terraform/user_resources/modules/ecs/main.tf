@@ -10,9 +10,9 @@ resource "aws_ecs_task_definition" "main" {
   family = "${var.app_name}-${var.environment}"
 
   requires_compatibilities = ["FARGATE"]
-  cpu    = "256"
-  memory = "512"
-  network_mode       = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+  network_mode             = "awsvpc"
 
   container_definitions = <<EOL
 [
@@ -71,7 +71,7 @@ resource "aws_ecs_service" "main" {
 
   task_definition = aws_ecs_task_definition.main.arn
 
-  depends_on = [ aws_ecs_task_definition.main ]
+  depends_on = [aws_ecs_task_definition.main]
 
   network_configuration {
     assign_public_ip = true

@@ -1,3 +1,3 @@
 resource "aws_ecr_repository" "main" {
-    name = "${var.app_name}"
+  name = var.app_name
 }

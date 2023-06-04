@@ -30,5 +30,5 @@ variable "aws_security_group_alb_id" {
 
 variable "image_url" {
   description = "The URL of the Docker image"
-  type = string
+  type        = string
 }

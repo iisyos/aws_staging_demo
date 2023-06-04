@@ -3,16 +3,16 @@ locals {
 }
 
 resource "aws_ecs_cluster" "main" {
-  name = "${var.app_name}"
+  name = var.app_name
 }
 
 resource "aws_ecs_task_definition" "main" {
-  family = "${var.app_name}"
+  family = var.app_name
 
   requires_compatibilities = ["FARGATE"]
-  cpu    = "256"
-  memory = "512"
-  network_mode       = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+  network_mode             = "awsvpc"
 
   container_definitions = <<EOL
 [
@@ -61,7 +61,7 @@ resource "aws_security_group_rule" "ecs" {
 }
 
 resource "aws_ecs_service" "main" {
-  name = "${var.app_name}"
+  name = var.app_name
 
   cluster = aws_ecs_cluster.main.name
 
@@ -81,7 +81,7 @@ resource "aws_ecs_service" "main" {
     for_each = local.load_balancer
     content {
       target_group_arn = load_balancer.value
-      container_name   = "${var.app_name}"
+      container_name   = var.app_name
       container_port   = 80
     }
   }

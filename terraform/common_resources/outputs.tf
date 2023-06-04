@@ -1,9 +1,9 @@
 output "app_name" {
-  value       = var.app_name
+  value = var.app_name
 }
 
 output "domain" {
-  value       = var.domain
+  value = var.domain
 }
 
 output "alb_dns_name" {

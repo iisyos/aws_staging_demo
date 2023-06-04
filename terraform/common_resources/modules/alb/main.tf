@@ -29,7 +29,7 @@ resource "aws_security_group_rule" "alb_http" {
 
 resource "aws_lb" "main" {
   load_balancer_type = "application"
-  name               = "${var.app_name}"
+  name               = var.app_name
 
   security_groups = ["${aws_security_group.alb.id}"]
   subnets         = ["${var.public_a_id}", "${var.public_c_id}"]
@@ -53,7 +53,7 @@ resource "aws_lb_listener" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  name = "${var.app_name}"
+  name = var.app_name
 
   vpc_id = var.vpc_id
 
