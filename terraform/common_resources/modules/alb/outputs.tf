@@ -17,3 +17,8 @@ output "alb_zone_id" {
   description = "The Zone ID of the ALB"
   value       = aws_lb.main.zone_id
 }
+
+output "aws_lb_listener_main_arn" {
+  description = "The ARN of the Listener"
+  value       = aws_lb_listener.main.arn
+}

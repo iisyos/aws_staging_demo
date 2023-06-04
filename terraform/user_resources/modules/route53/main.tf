@@ -1,10 +1,6 @@
-resource "aws_route53_zone" "main" {
-   name = var.domain
-}
-
 resource "aws_route53_record" "main" {
-   zone_id = aws_route53_zone.main.zone_id
-   name    = "www"
+   zone_id = var.aws_route53_zone_main_zone_id
+   name    = var.environment
    type    = "A"
    alias {
        name                   = var.alb_dns_name

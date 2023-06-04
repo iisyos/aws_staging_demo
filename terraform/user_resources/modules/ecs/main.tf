@@ -3,11 +3,11 @@ locals {
 }
 
 resource "aws_ecs_cluster" "main" {
-  name = "${var.app_name}"
+  name = "${var.app_name}-${var.environment}"
 }
 
 resource "aws_ecs_task_definition" "main" {
-  family = "${var.app_name}"
+  family = "${var.app_name}-${var.environment}"
 
   requires_compatibilities = ["FARGATE"]
   cpu    = "256"
@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = <<EOL
 [
   {
-    "name": "${var.app_name}",
+    "name": "${var.app_name}-${var.environment}",
     "image": "nginx",
     "portMappings": [
       {
@@ -31,8 +31,8 @@ EOL
 }
 
 resource "aws_security_group" "ecs" {
-  name        = "${var.app_name}-ecs"
-  description = "${var.app_name} ecs"
+  name        = "${var.app_name}-${var.environment}-ecs"
+  description = "${var.app_name} ${var.environment} ecs"
 
   vpc_id = var.vpc_id
 
@@ -44,7 +44,7 @@ resource "aws_security_group" "ecs" {
   }
 
   tags = {
-    Name = "${var.app_name}-ecs"
+    Name = "${var.app_name}-${var.environment}-ecs"
   }
 }
 
@@ -61,7 +61,7 @@ resource "aws_security_group_rule" "ecs" {
 }
 
 resource "aws_ecs_service" "main" {
-  name = "${var.app_name}"
+  name = "${var.app_name}-${var.environment}"
 
   cluster = aws_ecs_cluster.main.name
 
@@ -70,6 +70,8 @@ resource "aws_ecs_service" "main" {
   desired_count = "1"
 
   task_definition = aws_ecs_task_definition.main.arn
+
+  depends_on = [ aws_ecs_task_definition.main ]
 
   network_configuration {
     assign_public_ip = true
@@ -81,7 +83,7 @@ resource "aws_ecs_service" "main" {
     for_each = local.load_balancer
     content {
       target_group_arn = load_balancer.value
-      container_name   = "${var.app_name}"
+      container_name   = "${var.app_name}-${var.environment}"
       container_port   = 80
     }
   }

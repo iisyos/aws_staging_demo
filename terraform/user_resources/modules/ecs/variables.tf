@@ -3,6 +3,11 @@ variable "app_name" {
   type        = string
 }
 
+variable "environment" {
+  description = "The name of environment"
+  type        = string
+}
+
 variable "vpc_id" {
   description = "The ID of the VPC"
   type        = string
