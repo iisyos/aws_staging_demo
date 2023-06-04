@@ -23,7 +23,6 @@ module "alb" {
   public_a_id   = module.network.public_a_id
   public_c_id   = module.network.public_c_id
   depends_on = [module.network]
-  aws_acm_certificate_cert_arn = module.route53.aws_acm_certificate_cert_arn
 }
 
 module "ecs" {

@@ -27,18 +27,6 @@ resource "aws_security_group_rule" "alb_http" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 
-resource "aws_security_group_rule" "alb_https" {
-  security_group_id = aws_security_group.alb.id
-
-  type = "ingress"
-
-  from_port = 443
-  to_port   = 443
-  protocol  = "tcp"
-
-  cidr_blocks = ["0.0.0.0/0"]
-}
-
 resource "aws_lb" "main" {
   load_balancer_type = "application"
   name               = "${var.app_name}"
@@ -46,21 +34,6 @@ resource "aws_lb" "main" {
   security_groups = ["${aws_security_group.alb.id}"]
   subnets         = ["${var.public_a_id}", "${var.public_c_id}"]
 }
-
-resource "aws_lb_listener" "https" {
-  load_balancer_arn = "${aws_lb.main.arn}"
-
-  certificate_arn = var.aws_acm_certificate_cert_arn
-
-  port     = "443"
-  protocol = "HTTPS"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = "${aws_lb_target_group.main.id}"
-  }
-}
-
 
 resource "aws_lb_listener" "main" {
   port     = "80"
