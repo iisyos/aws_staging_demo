@@ -38,6 +38,7 @@ jobs:
     #       docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
     #       echo "image_url=${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
         - name: test echo
+          id: docker_push
           run: |
             echo "image_url=nginx" >> "$GITHUB_OUTPUT"
   Deploy:
