@@ -6,6 +6,7 @@ locals {
 
 remote_state {
   backend = "s3"
+  disable_dependency_optimization = true
 
   config = {
     encrypt        = true
