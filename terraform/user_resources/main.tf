@@ -6,6 +6,9 @@ terraform {
       version = "3.24.1"
     }
   }
+
+  backend "s3" {
+  }
 }
 
 provider "aws" {
@@ -33,6 +36,7 @@ module "ecs" {
   source                       = "./modules/ecs"
   app_name                     = var.app_name
   environment                  = var.environment
+  image_url                    = var.image_url
   vpc_id                       = var.vpc_id
   public_a_id                  = var.public_a_id
   public_c_id                  = var.public_c_id
