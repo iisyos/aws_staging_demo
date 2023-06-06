@@ -27,25 +27,25 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG api/
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-  TerraformPrepare:
-    runs-on: ubuntu-latest
-    steps:
-        - name: Checkout
-          uses: actions/checkout@v3
-        - name: Setup Terraform
-          uses: hashicorp/setup-terraform@v2
-          with:
-            terraform_version: 1.3.7
-        - name: Create Environmentfile
-          run: |
-            cp terraform/user_resources/staging.tfvars.exampe terraform/user_resources/staging.tfvars
-            sed "s/bucket = \"mybucket\"/bucket = \"${{ secrets.BACKEND_S3_BUCKET }}\"/" terraform/common_resources/main_override.tf.example > terraform/common_resources/main_override.tf
-            sed "s/bucket = \"mybucket\"/bucket = \"${{ secrets.BACKEND_S3_BUCKET }}\"/" terraform/user_resources/main_override.tf.example > terraform/user_resources/main_override.tf
-            echo >> image_url=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG terraform/user_resources/main_override.tf
+  # TerraformPrepare:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #       - name: Checkout
+  #         uses: actions/checkout@v3
+  #       - name: Setup Terraform
+  #         uses: hashicorp/setup-terraform@v2
+  #         with:
+  #           terraform_version: 1.3.7
+  #       - name: Create Environmentfile
+  #         run: |
+  #           cp terraform/user_resources/staging.tfvars.exampe terraform/user_resources/staging.tfvars
+  #           sed "s/bucket = \"mybucket\"/bucket = \"${{ secrets.BACKEND_S3_BUCKET }}\"/" terraform/common_resources/main_override.tf.example > terraform/common_resources/main_override.tf
+  #           sed "s/bucket = \"mybucket\"/bucket = \"${{ secrets.BACKEND_S3_BUCKET }}\"/" terraform/user_resources/main_override.tf.example > terraform/user_resources/main_override.tf
+  #           echo >> image_url=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG terraform/user_resources/main_override.tf
             
-        - name: Init Common Resources
-          run: terraform -chdir=terraform/common_resources init
-        - name: Dump Output
-          run: terraform -chdir=terraform/common_resources output -json | jq -r 'to_entries[] | "\(.key)=\"\(.value.value)\""' >> terraform/user_resources/staging.tfvars
-        - name: Init User Resources
-          run: terraform -chdir=terraform/user_resources init
+  #       - name: Init Common Resources
+  #         run: terraform -chdir=terraform/common_resources init
+  #       - name: Dump Output
+  #         run: terraform -chdir=terraform/common_resources output -json | jq -r 'to_entries[] | "\(.key)=\"\(.value.value)\""' >> terraform/user_resources/staging.tfvars
+  #       - name: Init User Resources
+  #         run: terraform -chdir=terraform/user_resources init
