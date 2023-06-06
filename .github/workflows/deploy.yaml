@@ -59,6 +59,7 @@ jobs:
           uses: hashicorp/setup-terraform@v2
           with:
             terraform_version: ${{ env.TF_VERSION }}
+            terraform_wrapper: false
         - name: Setup Terragrunt
           run: |
             sudo wget -q -O /bin/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v${TG_VERSION}/terragrunt_linux_amd64"
