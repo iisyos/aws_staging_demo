@@ -1,6 +1,3 @@
-resource "random_uuid" "alb" {
-}
-
 resource "aws_lb_listener_rule" "main" {
   listener_arn = var.aws_lb_listener_main_arn
 
@@ -17,8 +14,6 @@ resource "aws_lb_listener_rule" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  name = "${var.app_name}-${random_uuid.alb.result}"
-
   vpc_id = var.vpc_id
 
   port        = 80
