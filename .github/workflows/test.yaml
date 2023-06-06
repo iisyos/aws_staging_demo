@@ -17,3 +17,11 @@ jobs:
       run: |
         echo $STATE_BUCKET
         echo $WORK_DIR
+    - name: test
+      run: |
+        echo "NAME=hoge" >> $GITHUB_ENV
+    - name: test
+      run: |
+        env
+        echo $NAME
+        echo ${{ env.NAME }}
