@@ -25,3 +25,11 @@ jobs:
         env
         echo $NAME
         echo ${{ env.NAME }}
+  build2:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: test
+      run: |
+        echo $NAME
+        echo ${{ env.NAME }}
