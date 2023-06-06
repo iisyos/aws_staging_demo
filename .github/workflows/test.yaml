@@ -1,0 +1,15 @@
+name: Test
+
+on: 
+  push:
+jobs:
+  PushImage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          export NAME=hoge
+          echo $NAME          
+      - name: Test2
+        run: |
+          echo $NAME
