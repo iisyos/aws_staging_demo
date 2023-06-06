@@ -6,7 +6,7 @@ on: push
 env:
   TF_VERSION: 1.3.7
   TG_VERSION: 0.46.2
-  WORK_DIR: terraform/common_resources
+  WORK_DIR: terraform/test
   STATE_BUCKET: ${{ secrets.STATE_BUCKET }}
   ENVIRONMENT: ${{ github.actor }}
 
@@ -71,6 +71,6 @@ jobs:
         # - name: Terragrunt init
         #   working-directory: ${{ env.WORK_DIR }}
         #   run: terragrunt init
-        - name: Terragrunt plan
+        - name: Terragrunt apply
           working-directory: ${{ env.WORK_DIR }}
-          run: terragrunt plan
+          run: terragrunt apply --auto-approve

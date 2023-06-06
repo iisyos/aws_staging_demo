@@ -10,7 +10,7 @@ remote_state {
 
   config = {
     encrypt        = true
-    bucket         = "okamos-test-230604"
+    bucket         = "${get_env("STATE_BUCKET", local.env.state_bucket)}"
     key            = "${get_env("ENVIRONMENT", path_relative_to_include())}/terraform.tfstate"
     region         = "ap-northeast-1"
   }
