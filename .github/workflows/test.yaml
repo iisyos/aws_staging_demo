@@ -22,7 +22,8 @@ jobs:
     - name: test
       run: |
         echo "NAME=hoge" >> $GITHUB_ENV
-    - id: step2
+    - name: debug
+      id: step1
       run: echo "test=world" >> "$GITHUB_OUTPUT"
   build2:
     runs-on: ubuntu-latest
