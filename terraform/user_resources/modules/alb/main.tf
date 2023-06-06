@@ -14,8 +14,6 @@ resource "aws_lb_listener_rule" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  name = "${var.app_name}-${var.environment}"
-
   vpc_id = var.vpc_id
 
   port        = 80
@@ -23,7 +21,7 @@ resource "aws_lb_target_group" "main" {
   target_type = "ip"
 
   health_check {
-    port     = 3000
+    port     = 80
     path     = "/"
     interval = 5 * 60
     timeout  = 2 * 60

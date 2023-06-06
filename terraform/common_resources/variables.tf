@@ -12,6 +12,6 @@ variable "domain" {
 
 variable "image_url" {
   description = "The URL of the Docker image"
-  type = string
-  default = "nginx"
+  type        = string
+  default     = "nginx"
 }
