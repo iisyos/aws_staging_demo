@@ -68,9 +68,9 @@ jobs:
         - name: Setup Terragrunt
           run: |
             cp terraform/env.yaml.example terraform/env.yaml
-        - name: Terragrunt init
+        # - name: Terragrunt init
+        #   working-directory: ${{ env.WORK_DIR }}
+        #   run: terragrunt init
+        - name: Terragrunt plan
           working-directory: ${{ env.WORK_DIR }}
-          run: terragrunt init
-        - name: Terragrunt apply
-          working-directory: ${{ env.WORK_DIR }}
-          run: terragrunt apply -auto-approve
+          run: terragrunt plan
