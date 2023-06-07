@@ -6,6 +6,22 @@ resource "aws_ecs_cluster" "main" {
   name = "${var.app_name}-${var.environment}"
 }
 
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name               = "MyEcsTaskRole"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
 resource "aws_ecs_task_definition" "main" {
   family = "${var.app_name}-${var.environment}"
 
@@ -13,6 +29,7 @@ resource "aws_ecs_task_definition" "main" {
   cpu                      = "256"
   memory                   = "512"
   network_mode             = "awsvpc"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
   container_definitions = <<EOL
 [
