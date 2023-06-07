@@ -35,7 +35,9 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f docker/nginx/Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image_url=${ECR_REGISTRY}/${ECR_REPOSITORY}" >> "$GITHUB_OUTPUT"
+          echo "one=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
+          echo "two=${ECR_REPOSITORY}" >> "$GITHUB_OUTPUT"
+          echo "three=${ECR_REGISTRY}" >> "$GITHUB_OUTPUT"
   Deploy:
     runs-on: ubuntu-latest
     needs: PushImage
