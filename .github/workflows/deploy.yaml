@@ -33,7 +33,7 @@ jobs:
         #   ECR_REPOSITORY: app
         #   IMAGE_TAG: ${{ github.sha }}
         run: |
-          echo "${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          echo "hoge" >> "$GITHUB_OUTPUT"
   Deploy:
     runs-on: ubuntu-latest
     needs: PushImage
