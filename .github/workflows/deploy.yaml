@@ -49,8 +49,7 @@ jobs:
       - name: Terragrunt apply
         working-directory: ${{ env.WORK_DIR }}
         run: |
-          terragrunt apply --auto-approve
-          terragrunt output -json > output.json
+          terragrunt apply --auto-approve && terragrunt output -json > output.json
       - name: Wait for ECS services to be stable
         run: | 
           ECS_CLUSTER_NAME="$(cat output.json | jq -r '.ecs_cluster_name.value')"
