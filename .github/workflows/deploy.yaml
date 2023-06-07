@@ -13,7 +13,9 @@ jobs:
   PushImage:
     runs-on: ubuntu-latest
     outputs:
-        image_url: ${{ steps.docker_push.outputs.image_url }}
+        one: ${{ steps.docker_push.outputs.one }}
+        two: ${{ steps.docker_push.outputs.two }}
+        three: ${{ steps.docker_push.outputs.three }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
