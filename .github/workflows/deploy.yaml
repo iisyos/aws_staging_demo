@@ -12,7 +12,7 @@ env:
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
-  PushImage:
+  Deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,4 +48,13 @@ jobs:
           cp terraform/env.yaml.example terraform/env.yaml
       - name: Terragrunt apply
         working-directory: ${{ env.WORK_DIR }}
-        run: terragrunt apply --auto-approve
+        run: |
+          terragrunt apply --auto-approve
+          terragrunt output -json > output.json
+      - name: Wait for ECS services to be stable
+        run: | 
+          ECS_CLUSTER_NAME="$(cat output.json | jq -r '.ecs_cluster_name.value')"
+          ECS_SERVICE_NAME="$(cat output.json | jq -r '.ecs_service_name.value')"
+          aws ecs wait services-stable  \
+            --cluster $ECS_CLUSTER_NAME \
+            --service $ECS_SERVICE_NAME
