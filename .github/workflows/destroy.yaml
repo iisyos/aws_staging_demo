@@ -1,4 +1,4 @@
-name: Deploy
+name: Destroy
 
 on: workflow_dispatch
 
@@ -12,7 +12,7 @@ env:
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
-  Deploy:
+  Destroy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,16 +23,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-      - name: Build and push Docker image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f docker/nginx/Dockerfile .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "IMAGE_URL=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" > $GITHUB_ENV
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -46,15 +36,6 @@ jobs:
       - name: Copy env file
         run: |
           cp terraform/env.yaml.example terraform/env.yaml
-      - name: Terragrunt apply
+      - name: Terragrunt destroy
         working-directory: ${{ env.WORK_DIR }}
-        run: terragrunt apply --auto-approve
-      - name: Wait for ECS services to be stable
-        working-directory: ${{ env.WORK_DIR }}
-        run: | 
-          terragrunt output -json > output.json
-          ECS_CLUSTER_NAME="$(cat output.json | jq -r '.ecs_cluster_name.value')"
-          ECS_SERVICE_NAME="$(cat output.json | jq -r '.ecs_service_name.value')"
-          aws ecs wait services-stable  \
-            --cluster $ECS_CLUSTER_NAME \
-            --service $ECS_SERVICE_NAME
+        run: terragrunt destroy --auto-approve
